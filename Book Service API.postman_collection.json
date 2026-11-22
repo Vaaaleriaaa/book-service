@@ -1,0 +1,1126 @@
+{
+  "info": {
+    "_postman_id": "664c1cb1-1980-4305-93de-2e65152b8d5e",
+    "name": "Book Service API",
+    "description": "Микросервис для управления книгами",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "43575356",
+    "_collection_link": "https://go.postman.co/collection/43575356-664c1cb1-1980-4305-93de-2e65152b8d5e?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "books",
+      "item": [
+        {
+          "name": "{book_id}",
+          "item": [
+            {
+              "name": "Получить книгу по ID",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status code is 200', function () {\n    pm.response.to.have.status(200);\n})\n\npm.test('Response has all required fields', function () {\n    const jsonData = pm.response.json();\n    pm.expect(jsonData).to.have.property('id');\n    pm.expect(jsonData).to.have.property('title');\n    pm.expect(jsonData).to.have.property('author');\n    pm.expect(jsonData).to.have.property('year');\n    pm.expect(jsonData).to.have.property('description');\n})"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/books/{{book_id}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "books",
+                    "{{book_id}}"
+                  ]
+                },
+                "description": "Возвращает информацию о конкретной книге по её уникальному идентификатору."
+              },
+              "response": [
+                {
+                  "name": "200",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/books/{{book_id}}",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "books",
+                        "{{book_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "date",
+                      "value": "Sun, 22 Nov 2026 19:06:58 GMT"
+                    },
+                    {
+                      "key": "server",
+                      "value": "uvicorn"
+                    },
+                    {
+                      "key": "content-length",
+                      "value": "89"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"title\": \"название\",\n  \"author\": \"автор\",\n  \"year\": 2026,\n  \"description\": null,\n  \"id\": 18\n}"
+                },
+                {
+                  "name": "404",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/books/99999",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "books",
+                        "99999"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "date",
+                      "value": "Sun, 22 Nov 2026 19:07:22 GMT"
+                    },
+                    {
+                      "key": "server",
+                      "value": "uvicorn"
+                    },
+                    {
+                      "key": "content-length",
+                      "value": "56"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"detail\": \"Книга не найдена с ID: 99999\"\n}"
+                }
+              ]
+            },
+            {
+              "name": "Полностью обновить книгу",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status code is 200', function () {\n    pm.response.to.have.status(200);\n})\n\npm.test('Response has all required fields', function () {\n    const jsonData = pm.response.json();\n    pm.expect(jsonData).to.have.property('id');\n    pm.expect(jsonData).to.have.property('title');\n    pm.expect(jsonData).to.have.property('author');\n    pm.expect(jsonData).to.have.property('year');\n    pm.expect(jsonData).to.have.property('description');\n})\n\nif (pm.response.code === 200) {\n    const responseData = pm.response.json();\n\n    pm.environment.set(\"author\", responseData.author);\n\n    console.log(\"Обновлена книга с ID:\", responseData.id);\n    console.log(\"Новый автор:\", responseData.author);\n\n} else {\n    console.error('Ошибка запроса:', pm.response.code);\n}"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"новое название\",\n  \"author\": \"новый автор\",\n  \"year\": 2021,\n  \"description\": \"описание\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/books/{{book_id}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "books",
+                    "{{book_id}}"
+                  ]
+                },
+                "description": "Заменяет все поля книги новыми значениями. Все поля обязательны."
+              },
+              "response": [
+                {
+                  "name": "200",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"title\": \"новое название\",\n  \"author\": \"новый автор\",\n  \"year\": 2021,\n  \"description\": \"описание\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/books/{{book_id}}",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "books",
+                        "{{book_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "date",
+                      "value": "Sun, 22 Nov 2026 19:10:26 GMT"
+                    },
+                    {
+                      "key": "server",
+                      "value": "uvicorn"
+                    },
+                    {
+                      "key": "content-length",
+                      "value": "125"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"title\": \"новое название\",\n  \"author\": \"новый автор\",\n  \"year\": 2021,\n  \"description\": \"описание\",\n  \"id\": 18\n}"
+                },
+                {
+                  "name": "404",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"title\": \"новое название\",\n  \"author\": \"новый автор\",\n  \"year\": 2021,\n  \"description\": \"описание\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/books/99999",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "books",
+                        "99999"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "date",
+                      "value": "Sun, 22 Nov 2026 19:10:55 GMT"
+                    },
+                    {
+                      "key": "server",
+                      "value": "uvicorn"
+                    },
+                    {
+                      "key": "content-length",
+                      "value": "56"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"detail\": \"Книга не найдена с ID: 99999\"\n}"
+                },
+                {
+                  "name": "400",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"title\": \"новое название\",\n  \"year\": 2021,\n  \"description\": \"описание\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/books/{{book_id}}",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "books",
+                        "{{book_id}}"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "date",
+                      "value": "Sun, 22 Nov 2026 19:11:15 GMT"
+                    },
+                    {
+                      "key": "server",
+                      "value": "uvicorn"
+                    },
+                    {
+                      "key": "content-length",
+                      "value": "203"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"timestamp\": \"2026-11-22T19:11:15.759445\",\n  \"status\": 400,\n  \"error\": \"Bad Request\",\n  \"message\": \"Ошибки валидации\",\n  \"details\": {\n    \"author\": \"Field required\"\n  },\n  \"path\": \"http://localhost:8000/api/books/18\"\n}"
+                }
+              ]
+            },
+            {
+              "name": "Частично обновить книгу",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status code is 200', function () {\n    pm.response.to.have.status(200);\n})\n\npm.test('Response has all required fields', function () {\n    const jsonData = pm.response.json();\n    pm.expect(jsonData).to.have.property('id');\n    pm.expect(jsonData).to.have.property('title');\n    pm.expect(jsonData).to.have.property('author');\n    pm.expect(jsonData).to.have.property('year');\n    pm.expect(jsonData).to.have.property('description');\n})\n"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"year\": 1984,\n  \"description\": null\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/books/{{book_id}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "books",
+                    "{{book_id}}"
+                  ]
+                },
+                "description": "Обновляет только указанные поля книги. Можно передать одно или несколько полей."
+              },
+              "response": [
+                {
+                  "name": "200",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"year\": 1984,\n  \"description\": null\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/books/{{book_id}}",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "books",
+                        "{{book_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "date",
+                      "value": "Sun, 22 Nov 2026 19:14:07 GMT"
+                    },
+                    {
+                      "key": "server",
+                      "value": "uvicorn"
+                    },
+                    {
+                      "key": "content-length",
+                      "value": "111"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"title\": \"новое название\",\n  \"author\": \"новый автор\",\n  \"year\": 1984,\n  \"description\": null,\n  \"id\": 18\n}"
+                },
+                {
+                  "name": "404",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"year\": 1984,\n  \"description\": null\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/books/99999",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "books",
+                        "99999"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "date",
+                      "value": "Sun, 22 Nov 2026 19:14:19 GMT"
+                    },
+                    {
+                      "key": "server",
+                      "value": "uvicorn"
+                    },
+                    {
+                      "key": "content-length",
+                      "value": "56"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"detail\": \"Книга не найдена с ID: 99999\"\n}"
+                }
+              ]
+            },
+            {
+              "name": "Удалить книгу",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 204\", function () {\n    pm.response.to.have.status(204);\n});\n\nif (pm.response.code === 204) {\n\n    pm.environment.set(\"book_id\", \"\");\n    pm.environment.set(\"author\", \"\");\n\n} else {\n    console.error('Ошибка запроса:', pm.response.code);\n}"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/books/{{book_id}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "books",
+                    "{{book_id}}"
+                  ]
+                },
+                "description": "Удаляет книгу из базы данных по её ID."
+              },
+              "response": [
+                {
+                  "name": "404",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/books/99999",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "books",
+                        "99999"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "date",
+                      "value": "Sun, 22 Nov 2026 19:15:31 GMT"
+                    },
+                    {
+                      "key": "server",
+                      "value": "uvicorn"
+                    },
+                    {
+                      "key": "content-length",
+                      "value": "56"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"detail\": \"Книга не найдена с ID: 99999\"\n}"
+                },
+                {
+                  "name": "204",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/books/{{book_id}}",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "books",
+                        "{{book_id}}"
+                      ]
+                    }
+                  },
+                  "status": "No Content",
+                  "code": 204,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "date",
+                      "value": "Sun, 22 Nov 2026 19:15:42 GMT"
+                    },
+                    {
+                      "key": "server",
+                      "value": "uvicorn"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": ""
+                },
+                {
+                  "name": "405",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/books/",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "books",
+                        ""
+                      ]
+                    }
+                  },
+                  "status": "Method Not Allowed",
+                  "code": 405,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "date",
+                      "value": "Sun, 22 Nov 2026 19:16:04 GMT"
+                    },
+                    {
+                      "key": "server",
+                      "value": "uvicorn"
+                    },
+                    {
+                      "key": "allow",
+                      "value": "GET"
+                    },
+                    {
+                      "key": "content-length",
+                      "value": "31"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"detail\": \"Method Not Allowed\"\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "search",
+          "item": [
+            {
+              "name": "Поиск книг по автору",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/books/search/author/{{author}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "books",
+                    "search",
+                    "author",
+                    "{{author}}"
+                  ]
+                },
+                "description": "Возвращает список всех книг указанного автора."
+              },
+              "response": [
+                {
+                  "name": "200",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/books/search/author/{{author}}",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "books",
+                        "search",
+                        "author",
+                        "{{author}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "date",
+                      "value": "Sun, 22 Nov 2026 19:04:13 GMT"
+                    },
+                    {
+                      "key": "server",
+                      "value": "uvicorn"
+                    },
+                    {
+                      "key": "content-length",
+                      "value": "91"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "[\n  {\n    \"title\": \"название\",\n    \"author\": \"автор\",\n    \"year\": 2026,\n    \"description\": null,\n    \"id\": 18\n  }\n]"
+                },
+                {
+                  "name": "404",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/books/search/author/",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "books",
+                        "search",
+                        "author",
+                        ""
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "date",
+                      "value": "Sun, 22 Nov 2026 19:05:40 GMT"
+                    },
+                    {
+                      "key": "server",
+                      "value": "uvicorn"
+                    },
+                    {
+                      "key": "content-length",
+                      "value": "22"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"detail\": \"Not Found\"\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Получить все книги",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () {\n    pm.response.to.have.status(200);\n})\n\npm.test('Response is an array', function () {\n    const jsonData = pm.response.json();\n    pm.expect(jsonData).to.be.an('array');\n})\n\npm.test('Each book has required fields', function () {\n    const jsonData = pm.response.json();\n    jsonData.forEach(function (book) {\n        pm.expect(book).to.have.property('id');\n        pm.expect(book).to.have.property('title');\n        pm.expect(book).to.have.property('author');\n        pm.expect(book).to.have.property('year');\n    });\n})\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/books/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "books",
+                ""
+              ]
+            },
+            "description": "Возвращает список всех книг из базы данных.     Если книг нет, возвращает пустой массив."
+          },
+          "response": [
+            {
+              "name": "200",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/books/",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "books",
+                    ""
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "date",
+                  "value": "Sun, 22 Nov 2026 19:05:01 GMT"
+                },
+                {
+                  "key": "server",
+                  "value": "uvicorn"
+                },
+                {
+                  "key": "content-length",
+                  "value": "1300"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"title\": \"string\",\n    \"author\": \"string\",\n    \"year\": 2475,\n    \"description\": \"string\",\n    \"id\": 3\n  },\n  {\n    \"title\": \"string\",\n    \"author\": \"string\",\n    \"year\": 2475,\n    \"description\": \"string\",\n    \"id\": 4\n  },\n  {\n    \"title\": \"string\",\n    \"author\": \"string\",\n    \"year\": 2475,\n    \"description\": \"string\",\n    \"id\": 5\n  },\n  {\n    \"title\": \"string\",\n    \"author\": \"string\",\n    \"year\": 7695,\n    \"description\": null,\n    \"id\": 6\n  },\n  {\n    \"title\": \"название1\",\n    \"author\": \"автор1\",\n    \"year\": 1981,\n    \"description\": null,\n    \"id\": 7\n  },\n  {\n    \"title\": \"название1\",\n    \"author\": \"автор1\",\n    \"year\": 1981,\n    \"description\": null,\n    \"id\": 8\n  },\n  {\n    \"title\": \"название1\",\n    \"author\": \"автор1\",\n    \"year\": 1981,\n    \"description\": null,\n    \"id\": 9\n  },\n  {\n    \"title\": \"string\",\n    \"author\": \"string\",\n    \"year\": 7695,\n    \"description\": null,\n    \"id\": 10\n  },\n  {\n    \"title\": \"string\",\n    \"author\": \"string\",\n    \"year\": 7695,\n    \"description\": null,\n    \"id\": 11\n  },\n  {\n    \"title\": \"название1\",\n    \"author\": \"автор1\",\n    \"year\": 1981,\n    \"description\": null,\n    \"id\": 12\n  },\n  {\n    \"title\": \"string\",\n    \"author\": \"string\",\n    \"year\": 2026,\n    \"description\": null,\n    \"id\": 13\n  },\n  {\n    \"title\": \"string\",\n    \"author\": \"string\",\n    \"year\": 2026,\n    \"description\": null,\n    \"id\": 14\n  },\n  {\n    \"title\": \"string\",\n    \"author\": \"string\",\n    \"year\": 2026,\n    \"description\": null,\n    \"id\": 15\n  },\n  {\n    \"title\": \"string\",\n    \"author\": \"string\",\n    \"year\": 2026,\n    \"description\": null,\n    \"id\": 16\n  },\n  {\n    \"title\": \"string\",\n    \"author\": \"string\",\n    \"year\": 2026,\n    \"description\": null,\n    \"id\": 17\n  },\n  {\n    \"title\": \"название\",\n    \"author\": \"автор\",\n    \"year\": 2026,\n    \"description\": null,\n    \"id\": 18\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Создать новую книгу",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 201', function () {\n    pm.response.to.have.status(201);\n})\n\npm.test('Response has all required fields', function () {\n    const jsonData = pm.response.json();\n    pm.expect(jsonData).to.have.property('id');\n    pm.expect(jsonData).to.have.property('title');\n    pm.expect(jsonData).to.have.property('author');\n    pm.expect(jsonData).to.have.property('year');\n    pm.expect(jsonData).to.have.property('description');\n})\n\nif (pm.response.code === 201) {\n\n    const responseData = pm.response.json();\n\n    pm.environment.set(\"book_id\", responseData.id);\n    pm.environment.set(\"author\", responseData.author);\n\n    console.log(\"Создана книга с ID:\", responseData.id);\n    console.log(\"Создана книга с author:\", responseData.author);\n\n} else {\n    console.error('Ошибка запроса:', pm.response.code);\n}\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"string\",\n    \"author\": \"string\",\n    \"year\": 2026,\n    \"description\": null\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/books/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "books",
+                ""
+              ]
+            },
+            "description": "Создает новую запись о книге в базе данных. ID генерируется автоматически."
+          },
+          "response": [
+            {
+              "name": "201",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"title\": \"название\",\n    \"author\": \"автор\",\n    \"year\": 2026,\n    \"description\": null\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/books/",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "books",
+                    ""
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "date",
+                  "value": "Sun, 22 Nov 2026 18:59:06 GMT"
+                },
+                {
+                  "key": "server",
+                  "value": "uvicorn"
+                },
+                {
+                  "key": "content-length",
+                  "value": "75"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"title\": \"string\",\n  \"author\": \"string\",\n  \"year\": 2026,\n  \"description\": null,\n  \"id\": 16\n}"
+            },
+            {
+              "name": "400",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"title\": \"string\",\n    \"author\": \"string\",\n    \"description\": null\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/books/",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "books",
+                    ""
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "date",
+                  "value": "Sun, 22 Nov 2026 18:59:06 GMT"
+                },
+                {
+                  "key": "server",
+                  "value": "uvicorn"
+                },
+                {
+                  "key": "content-length",
+                  "value": "75"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"title\": \"string\",\n  \"author\": \"string\",\n  \"year\": 2026,\n  \"description\": null,\n  \"id\": 16\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "/"
+    },
+    {
+      "key": "book_id",
+      "value": ""
+    },
+    {
+      "key": "author",
+      "value": ""
+    }
+  ]
+}
